@@ -32,7 +32,7 @@ $ wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip
 $ sudo unzip <Name of package>
   
 ### Now add sonar user details
-$ groupadd sonar
+$ groupadd sonar 
 $ useradd -c "Sonar System User" -d /opt/sonar -g sonar -s /bin/bash sonar
 $ chown -R sonar:sonar /opt/sonar
 $chmod -R 775 /opt/sonar/
@@ -45,6 +45,27 @@ sonar  ALL=(ALL)  NOPASSWD:ALL
 $./sonar.sh start
 **To Check Status**
 $./sonar.sh status
+
+### Now go to browser and check the server by using your url
+https://<ip address>:9000
+
+### By default the username password will be admin & admin
+
+# To connect your DB Server to your SonarQube Server 
+
+## Follow below steps to configure your SonarQube server with DB server
+
+## I am using postgresql db server in AWS services to connect it
+
+### First you need to create postgresql db server in AWS by providing your **username and password**
+
+
+
+
+
+
+
+
 
 
 
