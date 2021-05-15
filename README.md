@@ -21,7 +21,15 @@ For large teams or Enterprise-scale installations of SonarQube, additional hardw
 # it Runs on port 9000
 
 # To install java-openjdk11 package
-sudo amazon-linux-extras install java-openjdk11
+$ sudo amazon-linux-extras install java-openjdk11
+# If you wish to change java configuration use below command
+$ sudo alternatives --config java
+# Now download the package of SonarQube server using below command 
+$ wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip
+
+
+
+
 
 
 
