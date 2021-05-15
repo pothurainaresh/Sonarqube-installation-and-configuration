@@ -81,21 +81,21 @@ $ \q     --------> to exit from server
 
 ### go to the path cd /opt/sonar/conf and edit the sonar.properties file as like below mentioned bold lines
 
-#### The schema must be created first.
+#The schema must be created first.
 ***sonar.jdbc.username=sonar ***    
 ***sonar.jdbc.password=sonar123***
 
 #----- PostgreSQL 9.3 or greater
-#### By default the schema named "public" is used. It can be overridden with the parameter "currentSchema".
+#By default the schema named "public" is used. It can be overridden with the parameter "currentSchema".
 ***sonar.jdbc.url=jdbc:postgresql:<Db server end point you have to give here>***
 
-#### By default, ports will be used on all IP addresses associated with the server.
+#By default, ports will be used on all IP addresses associated with the server.
 ***sonar.web.host=0.0.0.0***
 
-#### The default value is root context (empty value).
+#The default value is root context (empty value).
 ***sonar.web.context=/sonar***
 
-#### TCP port for incoming HTTP connections. Default value is 9000.
+#TCP port for incoming HTTP connections. Default value is 9000.
 ***sonar.web.port=9000***
 
 ### Now Restart your SonarQube server 
@@ -113,6 +113,41 @@ sudo sysctl -w vm.max_map_count=262144
 grep vm.max_map_count /etc/sysctl.config
 
 vm.max_map_count=262144
+
+
+# Now How to configure in Jenkins server
+
+### First we need to install a plugin called SonarQube Scanner
+
+$ ***Go to manage jenkins -- manage plugins --- select availabe tab and search SonarQube Scanner and install without restart
+
+### Now configure sonar server details with jenkins server
+
+***Go to manage jenkins --- configure systems and select SonarQube scanner and the below mentioned details
+
+Name :
+url:<sonarQube server ip :9000>
+if enable authentacion then you have to give token in credentials (if you won't publish your sonar server means)
+**Save***
+
+### Now create a Jenkins pipeline job by adding below pipeline stage script
+
+stage(" SonarQube analysis"){
+      def mavenHome =  tool name: "Maven", type: "maven"
+      def mavenCMD = "${mavenHome}/bin/mvn"
+	  withSonarQubeEnv('My SonarQube Server'){
+      sh "${mavenCMD} sonar:sonar"
+      }
+	  }
+    
+ ***Note : 
+ The name should be as per your sonarqube configure details
+ withSonarQubeEnv('My SonarQube Server'){
+ 
+ 
+
+
+
 
 
 
