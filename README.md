@@ -145,6 +145,47 @@ stage(" SonarQube analysis"){
  withSonarQubeEnv('My SonarQube Server'){
  
  
+ ### Now you can trigger a pipeline job and you can check Sonarqube code analysis in the sonar server
+ 
+ 
+ ### Now Create quality gates 
+ 
+ ***Quality Gates can be defined as a set of threshold measures set on your project like Code Coverage, Technical Debt Measure, Number of Blocker/Critical issues, Security Rating/ Unit Test Pass Rate and more. To pass the Quality Gates, the project should pass through each of the thresholds set.
+ 
+ ### How to create Quality gates
+ ***Go to administration and select quality gate and create your custom quality gate
+ 
+ ***Then 
+ got your project select your project
+ click on adminstration  --- Quality Gates =----
+ select your custom quality gates and Save 
+ 
+ 
+ Now trigger your jenkins job and it shows success and if you check in sonarqube server by selecting your project it shows faild. because we added our custom quality gates.
+ 
+ ### If project failed in the sonarqube server then we need to fail the jenkins job also. So for that purpose we need to add one more stage in the jenkins file like below mentioned
+ 
+ stage("Quality Gate"){
+  timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+    def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+    if (qg.status != 'OK') {
+      error "Pipeline aborted due to quality gate failure: ${qg.status}"
+    }
+	  }
+	  }
+***Note :
+Before adding this stage we need to add webhooks in the sonarqube server by selecting administration and add webhooks
+
+Name: ------
+ 
+Url:https://<Jenkins server ip>:8080/sonarqube-webhook/
+	
+	
+### Finally trigger the job now the Jenkins job also fail if Quality gate is not passing.
+	  
+ 
+ 
+ 
 
 
 
