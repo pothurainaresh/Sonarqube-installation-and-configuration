@@ -59,6 +59,64 @@ https://<ip address>:9000
 
 ### First you need to create postgresql db server in AWS by providing your **username and password**
 
+### Now you can install postgresql client in EC2 instance by using below command
+
+$ yum install -y postgresql
+
+# Connect with your db server use the below command
+
+$ psql --host=<End point of of your db server> --port=5432 --username=sonar --password --dbname=postgres
+  
+### Create database called sonardb and grant privileges on database sonardb to sonar user
+
+$ create database sonardb;
+$ grant all privileges on database sonardb to sonar;
+
+### To check the databases and users in db run the below commands
+$ \l     --------> to list databases in db
+$ \du    --------> to list users in db
+$ \q     --------> to exit from server
+
+### Now go to sonar installation server
+
+### go to the path cd /opt/sonar/conf and edit the sonar.properties file as like below mentioned bold lines
+
+#### The schema must be created first.
+***sonar.jdbc.username=sonar ***    
+***sonar.jdbc.password=sonar123***
+
+#----- PostgreSQL 9.3 or greater
+#### By default the schema named "public" is used. It can be overridden with the parameter "currentSchema".
+***sonar.jdbc.url=jdbc:postgresql:<Db server end point you have to give here>***
+
+#### By default, ports will be used on all IP addresses associated with the server.
+***sonar.web.host=0.0.0.0***
+
+#### The default value is root context (empty value).
+***sonar.web.context=/sonar***
+
+#### TCP port for incoming HTTP connections. Default value is 9000.
+***sonar.web.port=9000***
+
+### Now Restart your SonarQube server 
+**To Start**
+$./sonar.sh start
+**To Check Status**
+$./sonar.sh status
+
+### Errors and resloves
+if error means:
+bootstrap check failure [1] of [1]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+
+sudo sysctl -w vm.max_map_count=262144
+
+grep vm.max_map_count /etc/sysctl.config
+
+vm.max_map_count=262144
+
+
+
+
 
 
 
