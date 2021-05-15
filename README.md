@@ -18,14 +18,35 @@ For large teams or Enterprise-scale installations of SonarQube, additional hardw
 16GB of RAM For additional requirements and recommendations relating to database and ElasticSearch, see Hardware Recommendations.
 
 ## Installation Steps for Redhat machine
-# it Runs on port 9000
+### it Runs on port 9000
 
-# To install java-openjdk11 package
+### To install java-openjdk11 package
 $ sudo amazon-linux-extras install java-openjdk11
-# If you wish to change java configuration use below command
+### If you wish to change java configuration use below command
 $ sudo alternatives --config java
-# Now download the package of SonarQube server using below command 
+### Now go to /opt folder and download the package
+### Now download the package of SonarQube server using below command 
 $ wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip
+
+### Unzip the package by using below command
+$ sudo unzip <Name of package>
+  
+### Now add sonar user details
+$ groupadd sonar
+$ useradd -c "Sonar System User" -d /opt/sonar -g sonar -s /bin/bash sonar
+$ chown -R sonar:sonar /opt/sonar
+$chmod -R 775 /opt/sonar/
+$visudo
+Add below file in the sudoers file 
+sonar  ALL=(ALL)  NOPASSWD:ALL
+
+### To start sonar server. Go to below path and execute the below commands
+**To Start**
+$./sonar.sh start
+**To Check Status**
+$./sonar.sh status
+
+
 
 
 
